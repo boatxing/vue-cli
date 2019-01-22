@@ -14,6 +14,7 @@ async function create (projectName, options) {
   }
 
   const cwd = options.cwd || process.cwd()
+  //当前目录创建
   const inCurrent = projectName === '.'
   const name = inCurrent ? path.relative('../', cwd) : projectName
   const targetDir = path.resolve(cwd, projectName || '.')

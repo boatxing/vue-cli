@@ -64,11 +64,13 @@ program
   .option('-x, --proxy', 'Use specified proxy when creating project')
   .option('-b, --bare', 'Scaffold project without beginner instructions')
   .action((name, cmd) => {
+    //{preset: '', default: true|false, inlinePreset: '', packageManager: '', registry: <url>, git: [message], noGit: true|false}
     const options = cleanArgs(cmd)
     // --git makes commander to default git to true
     if (process.argv.includes('-g') || process.argv.includes('--git')) {
       options.forceGit = true
     }
+    //<app-name> options
     require('../lib/create')(name, options)
   })
 
