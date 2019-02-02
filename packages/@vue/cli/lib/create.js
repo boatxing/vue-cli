@@ -70,6 +70,7 @@ async function create (projectName, options) {
     }
   }
 
+  // console.debug("=====targetDir", targetDir);
   const creator = new Creator(name, targetDir, getPromptModules())
   await creator.create(options)
 }

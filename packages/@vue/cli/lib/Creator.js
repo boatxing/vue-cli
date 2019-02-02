@@ -62,6 +62,7 @@ module.exports = class Creator extends EventEmitter {
   }
 
   async create (cliOptions = {}, preset = null) {
+    console.debug("=====create", cliOptions, preset);
     const isTestOrDebug = process.env.VUE_CLI_TEST || process.env.VUE_CLI_DEBUG
     const { run, name, context, createCompleteCbs } = this
 
@@ -84,6 +85,8 @@ module.exports = class Creator extends EventEmitter {
         preset = await this.promptAndResolvePreset()
       }
     }
+
+    console.debug("=====preset", preset);
 
     // clone before mutating
     preset = cloneDeep(preset)
@@ -234,13 +237,14 @@ module.exports = class Creator extends EventEmitter {
   }
 
   async promptAndResolvePreset (answers = null) {
+    console.debug("=====promptAndResolvePreset");
     // prompt
     if (!answers) {
       await clearConsole(true)
       answers = await inquirer.prompt(this.resolveFinalPrompts())
     }
     debug('vue-cli:answers')(answers)
-
+    console.debug("=====answers", answers);
     if (answers.packageManager) {
       saveOptions({
         packageManager: answers.packageManager
@@ -341,12 +345,14 @@ module.exports = class Creator extends EventEmitter {
 
   resolveIntroPrompts () {
     const presets = this.getPresets()
+    // console.debug("=====presets", presets);
     const presetChoices = Object.keys(presets).map(name => {
       return {
         name: `${name} (${formatFeatures(presets[name])})`,
         value: name
       }
     })
+    // console.debug("=====presetChoices", presetChoices);
     const presetPrompt = {
       name: 'preset',
       type: 'list',
@@ -432,6 +438,7 @@ module.exports = class Creator extends EventEmitter {
   }
 
   resolveFinalPrompts () {
+    // console.debug("=====injectedPrompts", this.injectedPrompts);
     // patch generator-injected prompts to only show in manual mode
     this.injectedPrompts.forEach(prompt => {
       const originalWhen = prompt.when || (() => true)
@@ -446,6 +453,12 @@ module.exports = class Creator extends EventEmitter {
       ...this.outroPrompts
     ]
     debug('vue-cli:prompts')(prompts)
+    /*
+    console.debug("=====presetPrompt", this.presetPrompt);
+    console.debug("=====featurePrompt", this.featurePrompt);
+    console.debug("=====injectedPrompts", this.injectedPrompts);
+    console.debug("=====outroPrompts", this.outroPrompts);
+*/
     return prompts
   }
 

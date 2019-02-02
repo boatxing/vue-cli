@@ -71,6 +71,7 @@ program
       options.forceGit = true
     }
     //<app-name> options
+    // console.debug(name, options);
     require('../lib/create')(name, options)
   })
 

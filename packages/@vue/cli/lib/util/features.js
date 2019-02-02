@@ -20,7 +20,9 @@ exports.getFeatures = (preset) => {
 }
 
 exports.formatFeatures = (preset, lead, joiner) => {
+  // console.debug("formatFeatures", preset, lead);
   const features = exports.getFeatures(preset)
+  // console.debug("=====features", features);
   return features.map(dep => {
     dep = toShortPluginId(dep)
     return `${lead || ''}${chalk.yellow(dep)}`
